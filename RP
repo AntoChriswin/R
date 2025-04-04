@@ -2042,3 +2042,91 @@ for (i in 1:10) {
 cat("Sum of natural numbers up to 10:", sum_val, "\n")
 
 ------------------------------------------------------------------------------------------------
+#SET 20
+# Q1: Univariate EDA for daily temperatures
+# Simulated atomic vector with 30 daily temperature values
+daily_temps <- c(25, 26, 24, 28, 27, 30, 26, 25, 24, 28,
+                 29, 27, 25, 26, 30, 31, 28, 29, 25, 27,
+                 26, 24, 25, 29, 30, 28, 27, 26, 25, 26)
+
+# i) Central tendency
+mean_temp <- mean(daily_temps)
+median_temp <- median(daily_temps)
+
+# Mode function (custom, since R has no base mode)
+get_mode <- function(x) {
+  uniq_vals <- unique(x)
+  uniq_vals[which.max(tabulate(match(x, uniq_vals)))]
+}
+mode_temp <- get_mode(daily_temps)
+
+cat("Mean:", mean_temp, "\n")
+cat("Median:", median_temp, "\n")
+cat("Mode:", mode_temp, "\n")
+
+# ii) Dispersion
+range_val <- range(daily_temps)
+iqr_val <- IQR(daily_temps)
+sd_val <- sd(daily_temps)
+
+cat("Range:", range_val[1], "to", range_val[2], "\n")
+cat("Interquartile Range (IQR):", iqr_val, "\n")
+cat("Standard Deviation:", sd_val, "\n")
+
+#Q2: Merge two data frames by StudentID
+# Personal Information
+students <- data.frame(
+  StudentID = c(1, 2, 3),
+  Name = c("Alice", "Bob", "Charlie")
+)
+
+# Scores
+scores <- data.frame(
+  StudentID = c(1, 2, 3),
+  MathScore = c(90, 85, 78),
+  ScienceScore = c(88, 90, 84),
+  EnglishScore = c(92, 87, 80)
+)
+
+# Merge based on StudentID
+merged_data <- merge(students, scores, by = "StudentID")
+cat("Merged Data Frame:\n")
+print(merged_data)
+
+# Q3: 3D Array and Accessing Specific Elements
+# Two vectors
+vec1 <- 1:9
+vec2 <- 10:18
+
+# Create array with two 3x3 matrices
+arr <- array(c(vec1, vec2), dim = c(3, 3, 2))
+
+cat("Second row of second matrix:\n")
+print(arr[2, , 2])  # Second row, all columns, 2nd matrix
+
+cat("Element in 3rd row, 3rd column of 1st matrix:\n")
+print(arr[3, 3, 1])
+
+#Q4: Titanic Dataset Visualizations
+# Load Titanic data
+data("Titanic")
+titanic_df <- as.data.frame(Titanic)
+
+# a. Bar chart: Survived by Class
+library(ggplot2)
+ggplot(titanic_df, aes(x = Class, y = Freq, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Survival by Passenger Class") +
+  theme_minimal()
+
+# b. Modify plot: Survived by Class and Sex
+ggplot(titanic_df, aes(x = Class, y = Freq, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~Sex) +
+  labs(title = "Survival by Class and Gender") +
+  theme_minimal()
+
+# c. Histogram of Age (Titanic dataset doesn't have raw Age, simulate)
+# So we use a simulated example here for demo
+ages <- c(5, 22, 28, 35, 18, 40, 55, 60, 30, 19, 45, 23, 26, 33)
+hist(ages, main = "Age Distribution", xlab = "Age", col = "lightblue")
